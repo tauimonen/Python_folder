@@ -18,7 +18,7 @@ def dfs(visited, graph, node):
     visited-set.
     :param visited: set
     :param graph: dict
-    :param node:
+    :param node: str
     :return: none
     """
     if node not in visited:
