@@ -1,7 +1,7 @@
 # Using a Python dict as an adjacency list for directed graph.
 graph = {
     "A": ["B", "C"],
-    "B": ["D", "E"],
+    "B": ["D", "E:"],
     "C": ["F"],
     "D": [],
     "E": ["F"],
