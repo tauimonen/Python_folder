@@ -1,11 +1,12 @@
 # Using a Python dict as an adjacency list for directed graph.
 graph = {
-    "A": ["B", "C"],
-    "B": ["D", "E"],
-    "C": ["F"],
-    "D": [],
-    "E": ["F"],
-    "F": []
+    "1": ["6"],
+    "2": ["1", "6"],
+    "3": ["2"],
+    "4": ["3", "7"],
+    "5": ["4"],
+    "6": ["3", "4"],
+    "7": ["5"]
 }
 
 # Keeping track of the visited nodes and queue.
@@ -14,9 +15,11 @@ queue = []
 
 def bfs(visited, graph, node):
     """
-    Parameter ´node´ sets the starting node. Funtion loops all the
-    neighbour nodes and if not in visited-set, prints it and adds to
-    visited-set.
+    Parameter ´node´ sets the starting node. Function adds the
+    ´node´ parameter to visited-list and to the queue. Funtion
+    then loops all the neighbour nodes as long as there's nodes
+    in the queue, and if not visited, adds it to visited-set
+    and queue.
     :param visited: list
     :param graph: dict
     :param node: str
@@ -35,4 +38,4 @@ def bfs(visited, graph, node):
                 queue.append(neighbour)
 
 # Driver code
-bfs(visited, graph, "A")
+bfs(visited, graph, "1")

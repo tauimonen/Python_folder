@@ -1,11 +1,12 @@
 # Using a Python dict as an adjacency list for directed graph.
 graph = {
-    "A": ["B", "C"],
-    "B": ["D", "E:"],
-    "C": ["F"],
-    "D": [],
-    "E": ["F"],
-    "F": []
+    "1": ["6"],
+    "2": ["1", "6"],
+    "3": ["2"],
+    "4": ["3", "7"],
+    "5": ["4"],
+    "6": ["3", "4"],
+    "7": ["5"]
 }
 
 # Keeping track of the visited nodes.
@@ -22,13 +23,13 @@ def dfs(visited, graph, node):
     :return: none
     """
     if node not in visited:
-        print(node)
+        print(node, end=" ")
         visited.add(node)
         for neighbour in graph[node]:
             dfs(visited, graph, neighbour)
 
 # Driver code
-dfs(visited, graph, "A")
+dfs(visited, graph, "1")
 
 
 
