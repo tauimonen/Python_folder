@@ -24,17 +24,4 @@ class Cities:
         return False
 
 
-if __name__ == "__main__":
-    c = Cities(5)
-    print(c.has_route(2, 3))
-    print(c.has_route(4, 5))
-    print(c.has_route(2, 5))
-    c.add_road(3, 4)
-    print(c.has_route(2, 5))
-    print(c.has_route(3, 5))
-    print(c.has_route(3, 4))
-    print(c.has_route(4, 5))
-    print(c.has_route(2, 5))
-    c.add_road(2, 4)
-
 
