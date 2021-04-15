@@ -19,6 +19,7 @@ class Verkko:
             for u, v, w, in self.verkko:
                 if etaisyys[u] != float("Inf") and etaisyys[u] + w < etaisyys[v]:
                     etaisyys[v] = etaisyys[u] + w
+                    print(v, "etäisyys: ", etaisyys[v])
         for u, v, w in self.verkko:
             if etaisyys[u] != float("Inf") and etaisyys[u] + w <etaisyys[v]:
                 print("negatiivinen sykli")
@@ -26,15 +27,17 @@ class Verkko:
         self.tulosta(etaisyys)
 
 
-verkko = Verkko(5)
-verkko.lisaa_kaari(0, 1, -1)
-verkko.lisaa_kaari(0, 2, 4)
-verkko.lisaa_kaari(1, 2, 3)
-verkko.lisaa_kaari(1, 3, 2)
+verkko = Verkko(6)
+verkko.lisaa_kaari(0, 1, 10)
+verkko.lisaa_kaari(0, 3, 2)
+verkko.lisaa_kaari(1, 2, 10)
 verkko.lisaa_kaari(1, 4, 2)
-verkko.lisaa_kaari(3, 2, 5)
-verkko.lisaa_kaari(3, 1, 1)
-verkko.lisaa_kaari(4, 3, -3)
+verkko.lisaa_kaari(2, 5, 2)
+verkko.lisaa_kaari(3, 1, 3)
+verkko.lisaa_kaari(3, 4, 8)
+verkko.lisaa_kaari(4, 2, 3)
+verkko.lisaa_kaari(4, 5, 8)
+
 
 
 verkko.bf(0)
