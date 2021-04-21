@@ -21,7 +21,7 @@ class Verkko:
                     etaisyys[v] = etaisyys[u] + w
                     print(v, "etäisyys: ", etaisyys[v])
         for u, v, w in self.verkko:
-            if etaisyys[u] != float("Inf") and etaisyys[u] + w <etaisyys[v]:
+            if etaisyys[u] != float("Inf") and etaisyys[u] + w < etaisyys[v]:
                 print("negatiivinen sykli")
                 return
         self.tulosta(etaisyys)

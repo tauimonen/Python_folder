@@ -31,8 +31,9 @@ def print_solution(distance):
         print(" ")
 
 
-G = [[0, 5, INF, 15],
-         [2, 0, 3, 9],
-         [15, 10, 0, 3],
-         [INF, 5, INF, 0]]
+G = [[0, 5, 1, INF],
+         [INF, 0, INF, 3],
+         [INF, 2, 0, INF],
+         [INF, INF, 4, 0]]
+s = [[INF, 2, 5, INF], [2, INF, 1, INF], [5, 1, INF, INF], [INF, INF, INF, INF]]
 floyd_warshall(G)
