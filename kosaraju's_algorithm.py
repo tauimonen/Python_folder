@@ -1,6 +1,4 @@
-# Topological sort algorithm for directed acyclic graph (DAG)
 from collections import defaultdict
-
 
 class Graph:
     def __init__(self, vertices):
