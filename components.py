@@ -16,7 +16,10 @@ class Components:
         if self.size[a] < self.size[b]:
             a, b = b, a
         self.size[a] += self.size[b]
-        self.link[b] = a
+        w = self.link[b]
+        for i in range(len(self.link)):
+            if self.link[i] == w:
+                self.link[i] = a
 
     def count(self):
         diff_links = set()
@@ -25,13 +28,20 @@ class Components:
                 diff_links.add(link)
         return len(diff_links) - 1  # - {0}
 
+
 if __name__ == "__main__":
     c = Components(5)
-    print(c.count()) # 5
-    c.add_road(1,2)
-    c.add_road(1,3)
-    print(c.count()) # 3
-    c.add_road(2,3)
-    print(c.count()) # 3
-    c.add_road(4,5)
-    print(c.count()) # 2
+    c.add_road(4, 5)
+    print(c.count())
+    c.add_road(2, 3)
+    print(c.count())
+
+    c.add_road(4, 5)
+    print(c.count())
+    c.add_road(3, 4)
+
+    print(c.count())
+    c.add_road(2, 5)
+    c.add_road(4, 5)
+    print(c.count())
+    c.add_road(3, 4)
