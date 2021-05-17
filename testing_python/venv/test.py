@@ -1,20 +1,45 @@
-#!/usr/bin/env python3
-import re
+print("{}: {}".format(key, value))
+
+def mergesort(array):
+    debug_print(array=array)
+    if len(array) <= 1:
+        return array
+
+    m = len(array) // 2
+    debug_print(m=m)
+
+    left = mergesort(array[:m])
+    right = mergesort(array[m:])
+
+    return merge(left, right)
 
 
-def integers_in_brackets(s):
-    found = re.findall(r'\[[ ]*[+-]?[0-9]+[ ]*\]', s)
-    l = []
-    for x in found:
-        l.append(re.search(r'[-]?\d+', x).group(0))
-    l = [int(y) for y in l]
-    return l
+def merge(left, right):
+    debug_print(debug_msg="Merging...", left=left, right=right)
 
+    merged = []
 
-def main():
-    print(integers_in_brackets("  afd [asd] [12 ] [a34]  [ -43 ]tt [+12]xxx"))
-    print(integers_in_brackets("afd [128+] [47 ] [a34]  [ +-43 ]tt [+12]xxx!"))
-    # # [47, 12]
+    while len(left) > 0 and len(right) > 0:
+        if left[0] <= right[0]:
+            merged.append(left.pop(0))
+        else:
+            merged.append(right.pop(0))
+
+    if len(left) > 0:
+        merged += left
+    else:
+        merged += right
+
+    debug_print(merged=merged)
+    return merged
+
 
 if __name__ == "__main__":
-    main()
+    input_str = input("Enter numbers, separated by ',': ")
+
+    quit(1)
+
+    debug_print(value_list=value_list)
+
+    sorted_list = mergesort(value_list)
+    print(sorted_list)
