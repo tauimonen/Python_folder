@@ -1,5 +1,5 @@
 def count(r):
-    """Counts minimul count of monster to every square.
+    """Calculates minimum count of monster to every square.
     param: list of lists
     returns: int """
     n = len(r)  # row count
