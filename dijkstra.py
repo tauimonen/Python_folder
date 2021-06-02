@@ -1,7 +1,7 @@
 import heapq
 
 def calculate_distances(graph, starting_vertex):
-    distances = {vertex: float('infinity') for vertex in graph}
+    distances = {vertex: float('inf') for vertex in graph}
     distances[starting_vertex] = 0
     pq = [(0, starting_vertex)]
     while len(pq) > 0:
@@ -11,7 +11,6 @@ def calculate_distances(graph, starting_vertex):
         for neighbor, weight in graph[current_vertex].items():
             distance = current_distance + weight
             if distance < distances[neighbor]:
-                print(current_vertex, "neighbor: ", neighbor, "dist: ", distance)
                 distances[neighbor] = distance
                 heapq.heappush(pq, (distance, neighbor))
     return distances
@@ -25,4 +24,5 @@ example_graph = {
     '5': {'3': 3, '6': 8},
     '6': {}
 }
-print(calculate_distances(example_graph, '1'))
+start = '1'
+print(calculate_distances(example_graph, start))
