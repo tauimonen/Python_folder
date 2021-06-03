@@ -1,42 +1,46 @@
-from collections import defaultdict
+"""
+The network is computed so that the network node IDs are
+strings (course names). For this reason, the network is
+computed as a hash table, where the keys are course names
+and the values are side lists.
+"""
+
 
 class CoursePlan:
     def __init__(self):
-        self.courses = {}
-        self.count = -1
-        self.num_name = {}
-        self.name_num = {}
+        self.result = []
+        self.error = False
+        self.color = {}
+        self.courses = []
+        self.graph = {}
 
     def add_course(self, course):
-        self.count += 1
-        c = self.count
-        self.courses[c] = []
-        self.num_name[c] = course
-        self.name_num[course] = c
+        self.courses.append(course)
+        self.graph[course] = []
 
     def add_requisite(self, course1, course2):
-        key = self.name_num[course1]
-        self.courses[key].append(course2)
+        self.graph[course1].append(course2)
 
-    def topohelp(self, x, visited, stack):
-        visited[x] = True
-        for i in range(len(self.courses[x])):
-            if visited[x]:
-                self.topohelp(i, visited, stack)
-        stack.insert(0, x)
-        print(stack)
+    def dfs(self, course):
+        if self.color[course] == 1:
+            self.error = True
+            return
+        if self.color[course] == 2:
+            return
+        self.color[course] = 1
+        for next in self.graph[course]:
+            self.dfs(next)
+        self.result.append(course)
+        self.color[course] = 2
 
     def find(self):
-        n = len(self.courses)
-        result = []
-        visited = [False] * n
-        stack = []
-        for i in range(n):
-            if not visited[i]:
-                self.topohelp(i, visited, stack)
-        for i in stack:
-            result.append(self.num_name[i])
-        return result
+        for course in self.courses:
+            self.color[course] = 0
+        for course in self.courses:
+            if self.color[course] == 0:
+                self.dfs(course)
+        self.result.reverse()
+        return None if self.error else self.result
 
 
 if __name__ == "__main__":
