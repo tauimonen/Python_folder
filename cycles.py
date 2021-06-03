@@ -1,3 +1,6 @@
+"""The solution checks whether there is a directed cycle in the
+network."""
+
 from collections import defaultdict
 
 class Cycles:
