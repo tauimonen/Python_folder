@@ -1,3 +1,10 @@
+"""The Kosaraju's algorithm is a powerful algorithm that forms a
+directed network strongly congruent components. The algorithm has
+two steps, each go through the network nodes with depth search.
+The first step is reminiscent finding the topological order and
+generating a list of nodes. The second step forms strongly uniform
+components based on this list."""
+
 from collections import defaultdict
 
 class Graph:
@@ -31,6 +38,7 @@ class Graph:
         return g
 
     def printSCCs(self):
+        """Prints strongly connected components"""
         visited = [False] * self.V
         stack = []
         for i in range(self.V):
