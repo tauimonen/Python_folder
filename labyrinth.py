@@ -1,28 +1,29 @@
 from collections import deque
 
 
-def find_path(graph, start, goal):
-    queue = deque([("", start)])
-    visited = set()
-
-    while queue:
-        path, current = queue.popleft()
-        if current == goal:
-            return path
-        if current in visited:
-            continue
-        visited.add(current)
-        for direction, neighbour in graph[current]:
-            queue.append((path + direction, neighbour))
-    return "NO WAY!"
+def find_path(graph, start):
+    queue = deque()
+    queue.appendleft((start[0], start[1], 0))
+    visited = [[False] * len(graph) for _ in range(len(graph[0]))]
+    moves = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+    while len(queue) > 0:
+        pos = queue.pop()
+        visited[pos[0]][pos[1]] = True
+        if graph[pos[0]][pos[1]] == "B":
+            return pos[2]
+        for move in moves:
+            x = pos[0] + move[0]
+            y = pos[1] + move[1]
+            if x < 0 or x >= len(graph) or y < 0 or y >= len(graph[0]) - 2:
+                continue
+            if visited[x][y] or graph[x][y] == "#":
+                continue
+            queue.appendleft((x, y, pos[2] + 1))
 
 
 def count(r):
-    y = len(r)
-    x = len(r[0])
-
     A, B = find_start_and_goal_coordinates(r)
-    find_path(r, A, B)
+    find_path(r, A)
 
 
 def find_start_and_goal_coordinates(g):
