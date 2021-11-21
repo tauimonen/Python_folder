@@ -1,31 +1,31 @@
 from collections import deque
 
 
-def find_path(graph, start):
+def find_path(graph, start, goal):
     queue = deque()
-    queue.appendleft((start[0], start[1], 0))
+    queue.append(start)
     visited = [[False] * len(graph) for _ in range(len(graph[0]))]
     moves = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+    distance = [[float('inf')] * len(graph[0]) for _ in range(len(graph))]
+    distance[start[1]][start[0]] = 0
     while len(queue) > 0:
         pos = queue.pop()
         visited[pos[0]][pos[1]] = True
         if graph[pos[0]][pos[1]] == "B":
             return pos[2]
         for move in moves:
-            x = pos[0] + move[0]
-            y = pos[1] + move[1]
-            if x < 0 or x >= len(graph[0]) or y < 0 or y >= len(graph):
+            if visited[move[1]][move[0]] or graph[move[1]][move[0]] == "#":
                 continue
-            if visited[x][y] or graph[x][y] == "#":
-                continue
-            queue.appendleft((x, y, pos[2] + 1))
+            visited[move[1]][move[0]] = True
+            queue.appendleft(move)
+            distance[move[1]][move[0]] = distance[move[1]][move[0]] + 1
+        path_length = distance[goal[1]][goal[0]]
+        return path_length
 
 
 def count(r):
     A, B = find_start_and_goal_coordinates(r)
-    res = find_path(r, A)
-    if res is None: res = - 1
-    return res
+    return find_path(r, A, B)
 
 
 def find_start_and_goal_coordinates(g):
@@ -47,15 +47,4 @@ if __name__ == "__main__":
          "#.##...#",
          "#...B#.#",
          "########"]
-    print(count(r))  # 7
-    a = ["##########",
-        "#....#...#",
-        "#....#...#",
-        "#..#.....#",
-        "#.....#.A#",
-        "#.####...#",
-        "#...#.#..#",
-        "#.B.#..#.#",
-        "##.......#",
-        "##########"]
-    print(count(a))  # 11
+    print(count(r)) # 7
