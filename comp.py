@@ -1,5 +1,6 @@
 from collections import deque
 
+
 class Components:
     def __init__(self, n):
         self.nodes = {}

@@ -13,7 +13,7 @@ def calculate_distances(graph, starting_vertex):
             if distance < distances[neighbor]:
                 distances[neighbor] = distance
                 heapq.heappush(pq, (distance, neighbor))
-    return distances
+    return min(distances)
 
 
 example_graph = {
