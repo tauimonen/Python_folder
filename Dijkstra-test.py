@@ -2,29 +2,26 @@ import random
 import timeit
 import heapq
 
+
 class Graph:
-    def __init__(self, node_count):
-        self.node_count = node_count
-        self.graph = []
-        self.distance = [float('inf')] * node_count
-        self.distance[0] = 0
-        self.edges = []
-        for a in range(2, node_count):
-            for b in range(2, node_count):
+    def __init__(self, n):
+        self.graph = [[] for _ in range(n)]
+        self.n = n
+        for a in range(2, n):
+            for b in range(2, n):
                 if a < b and b - a < 10:
                     weight = random.randint(1, 1000)
-                    self.edges.append((a, b, weight))
+                    self.graph[a].append((b, weight))
 
     def dijkstra(self):
-        distances = {vertex: float('inf') for vertex in self.graph}
+        distances = [float('inf') for vertex in self.graph]
         distances[1] = 0
         pq = [(0, 1)]
-
         while len(pq) > 0:
             current_distance, current_vertex = heapq.heappop(pq)
             if current_distance > distances[current_vertex]:
                 continue
-            for neighbor, weight in self.graph[current_vertex].items():
+            for neighbor, weight in self.graph[current_vertex]:
                 distance = current_distance + weight
                 if distance < distances[neighbor]:
                     distances[neighbor] = distance
