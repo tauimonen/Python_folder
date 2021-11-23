@@ -8,6 +8,7 @@ def dijkstra(graph, start, end):
     dist[start] = 0
     heap = []
     heappush(heap, (0, start))
+
     while len(heap) > 0:
         vertex = heappop(heap)[1]
         if ready[vertex]:
@@ -32,6 +33,8 @@ def calculate(t):
         if i + t[i] < n:
             graph[i].append((i + t[i], t[i]))
     res = dijkstra(graph, 0, n - 1)
+    if res == float('inf'):
+        return -1
 
     return res
 
@@ -42,3 +45,4 @@ if __name__ == "__main__":
     print(calculate([3,2,1])) # -1
     print(calculate([3,5,2,2,2,3,5])) # 10
     print(calculate([7,5,3,1,4,2,4,6,1])) # 32
+    print(calculate([7, 4, 6, 2, 7, 7, 2, 9, 6, 7]))
