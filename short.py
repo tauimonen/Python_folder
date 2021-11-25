@@ -7,7 +7,7 @@ class Shortening:
         self.graph.append((a, b, x))
 
     def check(self, a, b):
-        distance = [float('inf')] * (self.n)
+        distance = [float('inf')] * self.n
         distance[a] = 0
         count = 0
         while True:
@@ -25,23 +25,10 @@ class Shortening:
 
 if __name__ == "__main__":
     s = Shortening(5)
-    print(s.check(3, 4))
-    print(s.check(5, 3))
-    s.add_edge(3, 4, 3)
-    print(s.check(3, 5))
-    s.add_edge(4, 1, 9)
-    print(s.check(2, 3))
-    print(s.check(4, 3))
-    print(s.check(2, 1))
-    s.add_edge(3, 1, -4)
-    s.add_edge(2, 4, 8)
-    print(s.check(5, 3))
-    print(s.check(4, 1))
-    print(s.check(2, 5))
-    print(s.check(4, 5))
-    print(s.check(5, 3))
-    s.add_edge(2, 3, -5)
-    s.add_edge(2, 4, 7)
-    s.add_edge(4, 2, 1)
-    s.add_edge(3, 4, -9)
-    print(s.check(4, 5))
+    print(s.check(1,3)) # False
+    s.add_edge(1,2,5)
+    s.add_edge(2,3,-2)
+    print(s.check(1,3)) # False
+    s.add_edge(2,4,1)
+    s.add_edge(4,2,-2)
+    print(s.check(1,3)) # True
