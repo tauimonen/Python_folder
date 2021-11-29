@@ -4,23 +4,30 @@ class Shortening:
         self.graph = []
 
     def add_edge(self, a, b, x):
-        self.graph.append((a, b, x))
+        self.graph.append((a - 1, b - 1, x))
 
     def check(self, a, b):
-        distance = [float('inf')] * (self.n)
-        distance[a] = 0
+        distance = [float('inf')] * self.n
+        distance[1] = 0
         count = 0
+        edges = []
+        for edge in self.graph:
+            if (edge[0] == a and edge[1] == b) or edge[1] == b:
+                edges.append(edge)
+
         while True:
             found = False
-            for edge in self.graph:
+            for edge in edges:
                 if distance[edge[1]] > distance[edge[0]] + edge[2]:
                     distance[edge[1]] = distance[edge[0]] + edge[2]
                     found = True
-                    if edge[1] == b and count >= self.n:
+                    if edge[1] == b - 1 and count >= self.n:
                         return True
             count += 1
             if not found or self.n <= 3:
                 return False
+            else:
+                return True
 
 
 if __name__ == "__main__":
