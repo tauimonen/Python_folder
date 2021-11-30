@@ -56,16 +56,23 @@ class Graph:
 
 
 if __name__ == "__main__":
-    g = Graph(8)
-    g.addEdge(1, 6)
-    g.addEdge(2, 1)
-    g.addEdge(2, 5)
-    g.addEdge(2, 7)
-    g.addEdge(3, 1)
-    g.addEdge(4, 5)
-    g.addEdge(5, 4)
-    g.addEdge(6, 3)
-    g.addEdge(6, 4)
-    g.addEdge(7, 2)
-    g.addEdge(7, 4)
-    g.printSCCs()
+    g2 = Graph(100)
+    for i in range(1, 100):
+        for j in range(1, 100):
+            if i < j:
+                g2.addEdge(i, j)
+    g2.printSCCs()
+
+    # g = Graph(8)
+    # g.addEdge(1, 6)
+    # g.addEdge(2, 1)
+    # g.addEdge(2, 5)
+    # g.addEdge(2, 7)
+    # g.addEdge(3, 1)
+    # g.addEdge(4, 5)
+    # g.addEdge(5, 4)
+    # g.addEdge(6, 3)
+    # g.addEdge(6, 4)
+    # g.addEdge(7, 2)
+    # g.addEdge(7, 4)
+    # g.printSCCs()
