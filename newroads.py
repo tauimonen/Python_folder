@@ -1,103 +1,61 @@
-class NewRoads:
+"""
+Smallest spanning tree with Kruskal algorithm
+"""
 
+class NewRoads:
     def __init__(self, n):
-        self.n = n
-        self.graph = []
-        self.link = list(range(n + 1))
         self.size = [1] * (n + 1)
+        self.link = list(range(0, n + 1))
+        self.n = n
+        self.roads = []
+
+    def add_road(self, a, b, x):
+        self.roads.append((x, a, b))
 
     def find(self, x):
         while self.link[x] != x:
             x = self.link[x]
         return x
 
-    def add_road(self, a, b, w):
-        self.graph.append([a-1, b-1, w])
+    def union(self, a, b):
         a = self.find(a)
         b = self.find(b)
-        if a == b:
-            return
         if self.size[a] < self.size[b]:
             a, b = b, a
         self.size[a] += self.size[b]
-        w = self.link[b]
-        for i in range(len(self.link)):
-            if self.link[i] == w:
-                self.link[i] = a
-
-    def union(self, parent, rank, x, y):
-        xroot = self.find(x)
-        yroot = self.find(y)
-        if rank[xroot] < rank[yroot]:
-            parent[xroot] = yroot
-        elif rank[xroot] > rank[yroot]:
-            parent[yroot] = xroot
-        else:
-            parent[yroot] = xroot
-            rank[xroot] += 1
-
-    def count(self):
-        diff_links = set()
-        for link in self.link:
-            if link not in diff_links:
-                diff_links.add(link)
-        return len(diff_links) - 1  # - {0}
+        self.link[b] = a
 
     def min_cost(self):
-        result = []
-        link = []
-        rank = []
-        i = 0
-        e = 0
-        self.graph = sorted(self.graph, key=lambda item: item[2])
-        while e < self.n - 1 and i <= self.n - 1:
-            print(self.count())
-            if self.count() != 1:
-                return -1  # if there's no possible way to connect all
-            print(i, self.graph)
-            u, v, w = self.graph[i]
-            i = i + 1
-            x = self.find(u)
-            y = self.find(v)
-            if x != y:
-                e = e + 1
-                result.append([u, v, w])
-                self.union(link, rank, x, y)
-        minimum = 0
-        for u, v, weight in result:
-            minimum += weight
-        return minimum
+        cost = 0
+        count = self.n
+        self.roads.sort()
+        for road in sorted(self.roads):
+            if self.find(road[1]) and self.find(road[2]):
+                self.union(road[1], road[2])
+                cost += road[0]
+                count -= 1
+
+        return cost if count == 1 else -1
 
 
-# n = NewRoads(4)
-# n.add_road(1, 2, 2)
-# n.add_road(1, 3, 5)
-# print(n.min_cost())  # -1
-# n.add_road(3, 4, 4)
-# print(n.min_cost())  # 11
-# n.add_road(2, 3, 1)
-# print(n.min_cost())  # 7
-#
-# n = NewRoads(5)
-# print(n.min_cost())
-# n.add_road(3, 5, 7)
-# print(n.min_cost())
-# print(n.min_cost())
-# n.add_road(3, 4, 6)
-# print(n.min_cost())
-# n.add_road(4, 5, 4)
-# n.add_road(1, 2, 7)
-# n.add_road(1, 3, 4)
-# print(n.min_cost())
-
-n = NewRoads(5)
-n.add_road(4,5,2)
-n.add_road(2,3,4)
-n.add_road(1,2,10)
-print(n.min_cost())
-print(n.min_cost())
-print(n.min_cost())
-print(n.min_cost())
-print(n.min_cost())
-n.add_road(2,4,2)
-print(n.min_cost())
+if __name__ == "__main__":
+    n = NewRoads(4)
+    n.add_road(1,2,2)
+    n.add_road(1,3,5)
+    print(n.min_cost()) # -1
+    n.add_road(3,4,4)
+    print(n.min_cost()) # 11
+    n.add_road(2,3,1)
+    print(n.min_cost()) # 7
+    print("="*20)
+    n2 = NewRoads(5)
+    print(n2.min_cost())
+    n2.add_road(3, 5, 7)
+    print(n2.min_cost())
+    print(n2.min_cost())
+    n2.add_road(3, 4, 6)
+    print(n2.min_cost())
+    n2.add_road(4, 5, 4)
+    n2.add_road(1, 2, 7)
+    n2.add_road(1, 3, 4)
+    print(n2.min_cost()) # 21
