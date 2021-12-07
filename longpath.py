@@ -1,52 +1,39 @@
 class LongPath:
-    def __init__(self,n):
+    def __init__(self, n):
         self.n = n
-        self.und_graph = [[] for _ in range(0, n + 1)]
-        self.visited = {}
-        self.distances = [0] * n
+        self.graph = [[] for _ in range(n + 1)]
 
-    def add_edge(self,a,b):
-        self.und_graph[a].append(b)
-        self.und_graph[b].append(a)
+    def add_edge(self, a, b):
+        self.graph[a].append(b)
+        self.graph[b].append(a)
 
-    def dfs(self, node):
-        if self.visited[node] == 2:
-            return
-        if self.visited[node] == 1:
-            return
+    def dfs(self, x):
+        
+        if x in self.mem:
+            return self.mem[x]
+        l = 0
+        for y in self.graph[x]:
+            if y > x:
+                l = max(l, self.dfs(y) + 1)
+        self.mem[x] = l
 
-        self.visited[node] = 1
-        for neighbour in self.und_graph[node]:
-            self.dfs(neighbour)
-        self.visited[node] = 2
-
-        self.sorted.append(node)
-
+        return l
 
     def calculate(self):
-        self.sorted = []
-        visited = [0] * self.n
-        for i in range(1, self._):
-            if visited[i] == 0:
-                self.dfs(i, visited, sorted)
-        sorted.reverse()
+        res = 0
+        self.mem = {}
+        for i in range(1, self.n + 1):
+            res = max(res, self.dfs(i))
 
-        # 2. lasketaan pisin polku jokaiseen solmuun
-        distances = [0] * self._n
-        for v in sorted:
-            if len(self._predecessors[v]) > 0:
-                distances[v] = max([distances[i] + 1 for i in self._predecessors[v]])
-
-        # 3. palautetaan pisin kaikista poluista
-        return max(distances)
+        return res
 
 
 if __name__ == "__main__":
     l = LongPath(4)
-    l.add_edge(1,2)
-    l.add_edge(1,3)
-    l.add_edge(2,4)
-    l.add_edge(3,4)
-    print(l.calculate()) # 2
-    l.add_edge(3,2)
-    print(l.calculate()) # 3
+    l.add_edge(1, 2)
+    l.add_edge(1, 3)
+    l.add_edge(2, 4)
+    l.add_edge(3, 4)
+    print(l.calculate())    # 2
+    l.add_edge(3, 2)
+    print(l.calculate())    # 3
