@@ -2,40 +2,54 @@
 Smallest spanning tree with Kruskal algorithm
 """
 
-class NewRoads:
+class UF:
     def __init__(self, n):
         self.size = [1] * (n + 1)
         self.link = list(range(0, n + 1))
-        self.n = n
-        self.roads = []
-
-    def add_road(self, a, b, x):
-        self.roads.append((x, a, b))
+        self.n = n + 1
 
     def find(self, x):
         while self.link[x] != x:
             x = self.link[x]
         return x
 
+    def components(self):
+        count = set()
+        for i in range(1, self.n):
+            count.add(self.find(i))
+        return len(count)
+
     def union(self, a, b):
         a = self.find(a)
         b = self.find(b)
+        if a == b:
+            return False
         if self.size[a] < self.size[b]:
             a, b = b, a
         self.size[a] += self.size[b]
         self.link[b] = a
+        return True
+
+
+class NewRoads:
+    def __init__(self, n):
+        self.roads = []
+        self.n = n
+
+    def add_road(self, a, b, x):
+        self.roads.append((x, a, b))
 
     def min_cost(self):
-        cost = 0
-        count = self.n
+        minim_cost = 0
         self.roads.sort()
-        for road in sorted(self.roads):
-            if self.find(road[1]) and self.find(road[2]):
-                self.union(road[1], road[2])
-                cost += road[0]
-                count -= 1
-
-        return cost if count == 1 else -1
+        union_find = UF(self.n)
+        for road in self.roads:
+            if union_find.union(road[1], road[2]):
+                minim_cost += road[0]
+                # print(road[0], "**")
+        if union_find.components() != 1:
+            return - 1
+        return minim_cost
 
 
 if __name__ == "__main__":
