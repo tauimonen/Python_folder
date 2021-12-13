@@ -1,20 +1,5 @@
 
-def add_edge(a, b, x):
-    graph[a][b] += x
 
-def dfs(start, goal):
-    global found, result
-    if visited[start]:
-        return
-    path.append(start)
-    visited[start] = True
-    if start == goal and not found:
-        found = True
-        result = path[:]
-    for i in range(1, n + 1):
-        if graph[start][i] > 0:
-            dfs(i, goal)
-    path.pop()
 
 n = 7
 graph = [[0] * (n + 1) for _ in range(n + 1)]
