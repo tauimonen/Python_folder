@@ -1,4 +1,3 @@
-from collections import defaultdict
 
 class Download:
     """
@@ -8,49 +7,50 @@ class Download:
     """
     def __init__(self,n):
         self.n = n + 1
-        self.graph = [[0] * (n + 1) for _ in range(self.n)]
+        self.graph = [[] for _ in range(self.n)]
+        self.limits = [[0] * self.n for _ in range(self.n)]
 
     def add_link(self, a, b, x):
-        self.graph[a][b] += x
+        self.graph[a].append(b)
+        self.limits[a][b] += x
+
+    def calculate(self, a, b):
+        maxim = 0
+        memo = [[0] * self.n for _ in range(self.n)]
+        while True:
+            m, p = self.bfs(a, b, memo)
+            if m == 0:
+                return maxim
+            maxim += m
+            v = b
+            while v != a:
+                u = p[v]
+                memo[u][v] += m
+                memo[v][u] -= m
+                v = u
 
     def bfs(self, a, b, v):
         jono = []
-        vierailtu = [False] * self.n
+        p = [-1] * self.n
+        t = [10**9] * self.n
         jono.append(a)
-        vierailtu[a] = True
-
         while jono:
-            jonosta = jono.pop(0)
-            for x, y in enumerate(self.graph[jonosta]):
-                if not vierailtu[x] and y > 0:
-                    jono.append(x)
-                    vierailtu[x] = True
-                    v[x] = jonosta
+            jonosta = jono.pop()
+            for n in self.graph[jonosta]:
+                if self.limits[jonosta][n] - v[jonosta][n] > 0 and p[n] == -1:
+                    p[n] = jonosta
+                    t[n] = min(t[jonosta], self.limits[jonosta][n] - v[jonosta][n])
+                    if n == b:
+                        return t[b], p
+                    else:
+                        jono.append(n)
+        return 0, p
 
-        if vierailtu[b]:
-            return True
-        return False
-
-    def calculate(self,a,b):
-        maxim = 0
-        v = [-1] * self.n
-        while self.bfs(a, b, v):
-            flow = 10**9
-            n = b
-            while n != a:
-                flow = min(flow, self.graph[v[n]][n])
-                n = v[n]
-            maxim += flow
-            x = b
-            while x != a:
-                y = v[x]
-                self.graph[y][x] -= flow
-                self.graph[x][y] += flow
-                x = v[x]
-        return maxim
 
 
 if __name__ == "__main__":
+
+    print("========")
     d = Download(5)
     print(d.calculate(3, 4))
     d.add_link(5, 3, 6)
@@ -63,11 +63,46 @@ if __name__ == "__main__":
     print(d.calculate(2, 4))
     print(d.calculate(5, 4))
     d.add_link(5, 2, 9)
-    print(d.calculate(1, 5)) # 13
+    print("seuraava 0")
+    print(d.calculate(1, 5)) # 0
     d.add_link(3, 5, 2)
     d.add_link(1, 3, 2)
     d.add_link(5, 4, 9)
     print(d.calculate(5, 4))
+    print(d.calculate(2, 3))
+    print(d.calculate(1, 3))
+    print(d.calculate(3, 2))
+    print(d.calculate(5, 4))
+    print(d.calculate(4, 5))
+    d.add_link(4, 3, 9)
+    print(d.calculate(4, 5))
+    print(d.calculate(2, 4))
+    print(d.calculate(4, 5))
+    d.add_link(5, 1, 6)
+    d.add_link(3, 5, 3)
+    d.add_link(4, 5, 2)
+    print(d.calculate(3, 4))
+    d.add_link(5, 3, 3)
+    print("======")
+
+    d = Download(5)
+    print(d.calculate(3, 4))
+    d.add_link(5, 3, 6)
+    print(d.calculate(5, 4))
+    print(d.calculate(4, 5))
+    print(d.calculate(5, 1))
+    d.add_link(5, 4, 9)
+    d.add_link(1, 2, 10)
+    print(d.calculate(3, 1))
+    print(d.calculate(2, 4))
+    print(d.calculate(5, 4))
+    d.add_link(5, 2, 9)
+    print(d.calculate(1, 5))
+    d.add_link(3, 5, 2)
+    d.add_link(1, 3, 2)
+    d.add_link(5, 4, 9)
+    print("seuraava 18")
+    print(d.calculate(5, 4)) # 18
     print(d.calculate(2, 3))
     print(d.calculate(1, 3))
     print(d.calculate(3, 2))

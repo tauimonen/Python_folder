@@ -48,7 +48,6 @@ class Download:
 
 
 if __name__ == "__main__":
-
     d = Download(4)
     print(d.calculate(1,4)) # 0
     d.add_link(1,2,5)
@@ -58,3 +57,36 @@ if __name__ == "__main__":
     d.add_link(1,3,4)
     d.add_link(3,2,2)
     print(d.calculate(1,4)) # 8
+    print("========")
+    d = Download(5)
+    print(d.calculate(3, 4))
+    d.add_link(5, 3, 6)
+    print(d.calculate(5, 4))
+    print(d.calculate(4, 5))
+    print(d.calculate(5, 1))
+    d.add_link(5, 4, 9)
+    d.add_link(1, 2, 10)
+    print(d.calculate(3, 1))
+    print(d.calculate(2, 4))
+    print(d.calculate(5, 4))
+    d.add_link(5, 2, 9)
+    print("seuraava 0")
+    print(d.calculate(1, 5)) # 0
+    d.add_link(3, 5, 2)
+    d.add_link(1, 3, 2)
+    d.add_link(5, 4, 9)
+    print(d.calculate(5, 4))
+    print(d.calculate(2, 3))
+    print(d.calculate(1, 3))
+    print(d.calculate(3, 2))
+    print(d.calculate(5, 4))
+    print(d.calculate(4, 5))
+    d.add_link(4, 3, 9)
+    print(d.calculate(4, 5))
+    print(d.calculate(2, 4))
+    print(d.calculate(4, 5))
+    d.add_link(5, 1, 6)
+    d.add_link(3, 5, 3)
+    d.add_link(4, 5, 2)
+    print(d.calculate(3, 4))
+    d.add_link(5, 3, 3)
