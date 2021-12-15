@@ -2,15 +2,24 @@ class Ball:
     """
     Class for calculating the maximum amount of pairs that can be formed.
     Using Ford-Fulkerson and breadth-first search.
+
+    NOT WORKING! Should maybe somehow detect cycles first.
     """
     def __init__(self,n):
         self.n = n + 1
         self.graph = [[] for _ in range(self.n)]
         self.limits = [[0] * self.n for _ in range(self.n)]
+        self.starts = []
+        self.ends = []
 
     def add_pair(self, a, b, x=1):
+        if a == b:
+            return
+
         self.graph[a].append(b)
         self.limits[a][b] += x
+        self.starts.append(a)
+        self.ends.append(b)
 
     def calc(self, a, b):
         maxim = 0
@@ -29,8 +38,10 @@ class Ball:
 
     def calculate(self):
         m = 0
-        for i in range(1, self.n):
-            for j in range(1, self.n):
+        if not self.starts or not self.ends:
+            return 0
+        for i in self.starts:
+            for j in self.ends:
                 m = max(m, self.calc(i, j))
         return m
 
@@ -62,3 +73,38 @@ if __name__ == "__main__":
     b.add_pair(1,3)
     b.add_pair(3,2)
     print(b.calculate()) # 2
+
+    print(20*"=")
+
+    b = Ball(5)
+    print(b.calculate())
+    b.add_pair(5, 5)
+    print(b.calculate())
+    b.add_pair(3, 4)
+    print(b.calculate())
+    print(b.calculate())
+    print(b.calculate())
+    b.add_pair(1, 3)
+    b.add_pair(4, 2)
+    print(b.calculate())
+    b.add_pair(5, 3)
+    b.add_pair(5, 1)
+    b.add_pair(1, 4)
+    b.add_pair(1, 2)
+    b.add_pair(1, 3)
+    print(b.calculate())
+    print(b.calculate())
+
+    b.add_pair(4, 5)
+    print(b.calculate())
+    b.add_pair(2, 5)
+    b.add_pair(5, 5)
+    print(b.calculate())
+    print(b.calculate())
+    print(b.calculate())
+    b.add_pair(3, 1)
+    print(b.calculate())
+    print(b.calculate())
+    b.add_pair(5, 3)
+    print(b.calculate())
+    b.add_pair(3, 5)
