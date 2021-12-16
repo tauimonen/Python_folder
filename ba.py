@@ -2,29 +2,29 @@ class Ball:
     """
     Class for calculating the maximum amount of pairs that can be formed.
     Using Ford-Fulkerson and breadth-first search.
-    """
 
-    def __init__(self, n):
+    NOT WORKING! Should maybe somehow detect cycles first.
+    """
+    def __init__(self,n):
         self.n = n
-        self.nn = (2 * n) + 2
-        self.graph = [[0] * self.nn for _ in range(self.nn)]
-        self.f = [x[:] for x in self.graph]
+        self.graph = self._graph = [[0] * (2 * n + 2) for _ in range(2 * n + 2)]
+        self.f = [row[:] for row in self.graph]
+        self.nn = len(self.graph)
         self.visited = [False] * self.nn
 
     def add_pair(self, a, b):
-        self.graph[a][b + self.n] = 1
-        self.graph[b + self.n][-1] = 1
-        self.graph[0][a] = 1
+        self._graph[a][b + self.n] = 1
+        self._graph[b + self.n][-1] = 1
+        self._graph[0][a] = 1
+
 
     def calculate(self):
         res = 0
-        self.f = [x[:] for x in self.graph]
         while True:
-            self.visited = [False] * self.nn
-            flow = self.bfs(0, self.nn - 1, 10 ** 9)
-            if flow == 0:
+            f = self.bfs(0, self.nn - 1, 10 ** 9)
+            if f == 0:
                 return res
-            res += flow
+            res += f
 
     def bfs(self, a, b, v):
         if self.visited[a]:
@@ -32,27 +32,28 @@ class Ball:
         self.visited[a] = True
         if a == b:
             return v
-        for i in range(len(self.graph)):
-            if self.f[a][i] > 0:
-                flow = self.bfs(i, b, min(v, self.f[a][i]))
-                if flow > 0:
-                    self.f[a][i] -= flow
-                    self.f[i][a] += flow
-                    return flow
-        return 0
+        flow = 0
 
+        for i in range(self.n):
+            if self.f[a][i] > 0:
+                minim = min(v, self.f[a][i])
+                flow = self.bfs(i, b, minim)
+                if flow > 0:
+                    self.f[i][a] += flow
+                    self.f[a][i] -= flow
+        return flow
 
 
 if __name__ == "__main__":
     b = Ball(4)
-    print(b.calculate())  # 0
-    b.add_pair(1, 2)
-    print(b.calculate())  # 1
-    b.add_pair(1, 3)
-    b.add_pair(3, 2)
-    print(b.calculate())  # 2
+    print(b.calculate()) # 0
+    b.add_pair(1,2)
+    print(b.calculate()) # 1
+    b.add_pair(1,3)
+    b.add_pair(3,2)
+    print(b.calculate()) # 2
 
-    print(20 * "=")
+    print(20*"=")
 
     b = Ball(5)
     print(b.calculate())

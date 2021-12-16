@@ -2,6 +2,8 @@ class Ball:
     """
     Class for calculating the maximum amount of pairs that can be formed.
     Using Ford-Fulkerson and breadth-first search.
+
+    NOT WORKING YET!
     """
 
     def __init__(self, n):
@@ -41,48 +43,40 @@ class Ball:
                     return flow
         return 0
 
+def count(r):
+
+    n = len(r)
+    f = Ball(n)
+    cou = 0
+    grid = [[0] * (n) for _ in range(n)]
+    val = 1
+    for i in range(0, n ):
+        for j in range(0, n):
+            grid[i][j] = val
+            val += 1
+    print(grid)
+    for y in range(1, n):
+        for x in range(1, n):
+            if r[y][x] != '.':
+                continue
+            if r[y][x] == '*':
+                for move in [(y+1, x+2), (y+2, x+1), (y+1, x-2), (y+2, x-1),
+                             (y-1, x+2), (y-2, x+1), (y-1, x-2), (y-2, x-1)]:
+                    if r[move[0]][move[1]] == "*":
+                        cou += 1
+                        f.add_pair(grid[move[0]][move[1]])
+
+    return f.calculate(1, n * n)
+
 
 
 if __name__ == "__main__":
-    b = Ball(4)
-    print(b.calculate())  # 0
-    b.add_pair(1, 2)
-    print(b.calculate())  # 1
-    b.add_pair(1, 3)
-    b.add_pair(3, 2)
-    print(b.calculate())  # 2
-
-    print(20 * "=")
-
-    b = Ball(5)
-    print(b.calculate())
-    b.add_pair(5, 5)
-    print(b.calculate())
-    b.add_pair(3, 4)
-    print(b.calculate())
-    print(b.calculate())
-    print(b.calculate())
-    b.add_pair(1, 3)
-    b.add_pair(4, 2)
-    print(b.calculate())
-    b.add_pair(5, 3)
-    b.add_pair(5, 1)
-    b.add_pair(1, 4)
-    b.add_pair(1, 2)
-    b.add_pair(1, 3)
-    print(b.calculate())
-    print(b.calculate())
-
-    b.add_pair(4, 5)
-    print(b.calculate())
-    b.add_pair(2, 5)
-    b.add_pair(5, 5)
-    print(b.calculate())
-    print(b.calculate())
-    print(b.calculate())
-    b.add_pair(3, 1)
-    print(b.calculate())
-    print(b.calculate())
-    b.add_pair(5, 3)
-    print(b.calculate())
-    b.add_pair(3, 5)
+    r = ["*.......",
+         "..*...*.",
+         "........",
+         ".*......",
+         "...*....",
+         ".......*",
+         "........",
+         "......*."]
+    print(count(r)) # 3

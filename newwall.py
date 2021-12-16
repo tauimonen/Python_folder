@@ -1,3 +1,25 @@
+
+def count(r):
+    """
+    The function calculates how many squares at least need to be turned into a wall
+    so that there is no path in the grid from the top left to the bottom right.
+    Using class C and its functions.
+    :param r: list of strings
+    :return: int
+    """
+    n = len(r)
+    f = C(n ** 2)
+    for y in range(n):
+        for x in range(n):
+            if r[y][x] != '.':
+                continue
+            if x < n-1 and r[y][x + 1] == '.':
+                f.add_teleport((y * n) + x, (y * n) + x + 1, 1)
+            if y < n-1 and r[y+1][x] == '.':
+                f.add_teleport((y * n) + x, ((y + 1) * n) + x, 1)
+    res = f.calculate(0, n ** 2 - 1)
+    return res
+
 class C:
     """
     Class for calculating the maximum amount of teleports needed to
@@ -8,12 +30,11 @@ class C:
         self.graph = [[] for _ in range(self.n)]
         self.limits = [[0] * self.n for _ in range(self.n)]
 
-    def add_pair(self, a, b, x=1):
+    def add_teleport(self, a, b, x=1):
         self.graph[a].append(b)
         self.limits[a][b] += x
 
     def calculate(self, a, b):
-        print(self.graph)
         maxim = 0
         memo = [[0] * self.n for _ in range(self.n)]
         while True:
@@ -22,15 +43,11 @@ class C:
                 return maxim
             maxim += m
             v = b
-
             while v != a:
-
                 u = p[v]
                 memo[u][v] += m
                 memo[v][u] -= m
                 v = u
-
-
 
     def bfs(self, a, b, v):
         jono = []
@@ -40,7 +57,7 @@ class C:
         while jono:
             jonosta = jono.pop()
             for n in self.graph[jonosta]:
-                if self.limits[jonosta][n] - v[jonosta][n] > 0 and p[n] == - 1:
+                if self.limits[jonosta][n] - v[jonosta][n] > 0 and p[n] == -1:
                     p[n] = jonosta
                     t[n] = min(t[jonosta], self.limits[jonosta][n] - v[jonosta][n])
                     if n == b:
@@ -49,39 +66,18 @@ class C:
                         jono.append(n)
         return 0, p
 
-def count(r):
 
-    n = len(r)
-    f = C(n)
-    cou = 0
-    grid = [[0] * (n) for _ in range(n)]
-    val = 1
-    for i in range(0, n ):
-        for j in range(0, n):
-            grid[i][j] = val
-            val += 1
-    print(grid)
-    for y in range(1, n):
-        for x in range(1, n):
-            if r[y][x] != '.':
-                continue
-            if r[y][x] == '*':
-                for move in [(y+1, x+2), (y+2, x+1), (y+1, x-2), (y+2, x-1),
-                             (y-1, x+2), (y-2, x+1), (y-1, x-2), (y-2, x-1)]:
-                    if r[move[0]][move[1]] == "*":
-                        cou += 1
-                        f.add_pair(grid[move[0]][move[1]])
-
-    return f.calculate(1, n * n)
 
 if __name__ == "__main__":
-
-    r = ["*.......",
-         "..*...*.",
-         "........",
-         ".*......",
-         "...*....",
-         ".......*",
-         "........",
-         "......*."]
-    print(count(r)) # 3
+    r = [".....",
+         ".###.",
+         "...#.",
+         "##.#.",
+         "....."]
+    print(count(r)) # 2
+    r2 = [".....",
+         ".....",
+         "..#.#",
+         ".....",
+         "..#.."]
+    print(count(r2))  # 2
