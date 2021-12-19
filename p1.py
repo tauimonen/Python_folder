@@ -9,15 +9,14 @@ def depth_increase(file="measures.txt"):
     with open(file) as f:
         values = f.readlines()
     count = 0
-    biggest_value = 0
+    last_value = 0
     for value in values:
         v = int(value.strip())
-        if v > biggest_value:
+        if v > last_value:
             count += 1
-            biggest_value = v
-            print(v, biggest_value)
+        last_value = v
 
-    print(count)
+    print(count - 1)
 
 
 if __name__ == "__main__":
